@@ -1,4 +1,5 @@
-﻿using DiscordRPC;
+﻿using System;
+using DiscordRPC;
 
 class DiscordRichPresence
 {
@@ -48,9 +49,14 @@ class DiscordRichPresence
 
     public void EndConnection()
     {
+        // Catch exception when application is closed as soon as it's opened (Discord RPC hasn't been initialized yet)
         try
         {
             client.Dispose();
-        } finally { }
+        }
+        catch (NullReferenceException e)
+        {
+            // Don't do anything lol
+        }
     }
 }
