@@ -1,10 +1,12 @@
 ﻿using System;
 using DiscordRPC;
 
-class DiscordRichPresence
+internal class DiscordRichPresence
 {
-    private DiscordRpcClient client;
+    #region Variables
     private MusicKitResponse data = new MusicKitResponse();
+    private DiscordRpcClient client;
+    #endregion
 
     public void Initialize()
     {
@@ -23,28 +25,24 @@ class DiscordRichPresence
 
         // If song's metadata isn't null, update presence with it. Otherwise, just update the playing state.
         if (newData.Name != null && newData.ArtistName != null && newData.AlbumName != null)
-        {
             data = newData;
-        } else
-        {
+        else
             data.State = newData.State;
-        }
 
         // Update Rich Presence only if we have the song's metadata
         if (data.Name != null && data.ArtistName != null && data.AlbumName != null)
         {
-            client.SetPresence(new RichPresence()
+            client.SetPresence(new RichPresence
             {
                 Details = $"🎵 {data.Name}",
                 State = $"🎤{data.ArtistName} 💽 {data.AlbumName}",
-                Assets = new Assets()
+                Assets = new Assets
                 {
                     LargeImageKey = "applemusic_logo",
                     LargeImageText = "Apple Music"
                 }
             });
         }
-        
     }
 
     public void EndConnection()
