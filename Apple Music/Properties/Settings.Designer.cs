@@ -34,5 +34,29 @@ namespace Apple_Music.Properties {
                 this["enableDiscordRPC"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("🎵 song")]
+        public string discordRpcFirstLine {
+            get {
+                return ((string)(this["discordRpcFirstLine"]));
+            }
+            set {
+                this["discordRpcFirstLine"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("🎤 artist 💽 album")]
+        public string discordRpcSecondLine {
+            get {
+                return ((string)(this["discordRpcSecondLine"]));
+            }
+            set {
+                this["discordRpcSecondLine"] = value;
+            }
+        }
     }
 }

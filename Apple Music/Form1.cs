@@ -88,7 +88,7 @@ namespace Apple_Music
             var data = JsonSerializer.Deserialize<MusicKitResponse>(json, options);
             // Post to rich presence if enabled
             if (Properties.Settings.Default.enableDiscordRPC)
-                _rpc.UpdatePresence(data);
+                _rpc.UpdatePresence(data, Properties.Settings.Default.discordRpcFirstLine, Properties.Settings.Default.discordRpcSecondLine);
 
         }
 

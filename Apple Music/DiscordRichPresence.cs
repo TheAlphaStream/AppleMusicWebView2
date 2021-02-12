@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Windows.Forms.PropertyGridInternal;
 using DiscordRPC;
 
 internal class DiscordRichPresence
 {
     #region Variables
+
     private MusicKitResponse _data = new MusicKitResponse();
     private DiscordRpcClient _client;
+    private String Details;
+    private String State;
+
     #endregion
 
     public void Initialize()
@@ -14,7 +19,7 @@ internal class DiscordRichPresence
         _client.Initialize();
     }
 
-    public void UpdatePresence(MusicKitResponse newData)
+    public void UpdatePresence(MusicKitResponse newData, String templateFirstLine, String templateSecondLine)
     {
         // If music is paused, clear presence
         if (newData.State != null && newData.State != 2)
@@ -25,7 +30,11 @@ internal class DiscordRichPresence
 
         // If song's metadata isn't null, update presence with it. Otherwise, just update the playing state.
         if (newData.Name != null && newData.ArtistName != null && newData.AlbumName != null)
+        {
             _data = newData;
+            Details = ParseTemplate(templateFirstLine);
+            State = ParseTemplate(templateSecondLine);
+        }
         else
             _data.State = newData.State;
 
@@ -34,8 +43,8 @@ internal class DiscordRichPresence
         {
             _client.SetPresence(new RichPresence
             {
-                Details = $"🎵 {_data.Name}",
-                State = $"🎤 {_data.ArtistName} 💽 {_data.AlbumName}",
+                Details = Details,
+                State = State,
                 Assets = new Assets
                 {
                     LargeImageKey = "applemusic_logo",
@@ -43,6 +52,14 @@ internal class DiscordRichPresence
                 }
             });
         }
+    }
+
+    private String ParseTemplate(String text)
+    {
+        String songReplaced = text.Replace("song", _data.Name);
+        String artistReplaced = songReplaced.Replace("artist", _data.ArtistName);
+        String final = artistReplaced.Replace("album", _data.AlbumName);
+        return final;
     }
 
     public void EndConnection()

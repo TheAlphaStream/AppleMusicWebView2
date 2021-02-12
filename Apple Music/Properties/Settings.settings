@@ -5,5 +5,11 @@
     <Setting Name="enableDiscordRPC" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="discordRpcFirstLine" Type="System.String" Scope="User">
+      <Value Profile="(Default)">🎵 song</Value>
+    </Setting>
+    <Setting Name="discordRpcSecondLine" Type="System.String" Scope="User">
+      <Value Profile="(Default)">🎤 artist 💽 album</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
