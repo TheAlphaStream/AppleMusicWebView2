@@ -9,7 +9,7 @@ namespace Apple_Music
     public partial class Form1 : Form
     {
         #region Variables
-        private readonly DiscordRichPresence rpc = new DiscordRichPresence();
+        private readonly DiscordRichPresence _rpc = new DiscordRichPresence();
         #endregion
 
         public Form1()
@@ -60,7 +60,7 @@ namespace Apple_Music
         private async void AppleMusic_InitDiscordRPC(object sender, object e)
         {
             // yeah...
-            rpc.Initialize();
+            _rpc.Initialize();
             // Get playing state
             await webView.CoreWebView2.ExecuteScriptAsync(
                 "MusicKit.getInstance().addEventListener( MusicKit.Events.playbackStateDidChange, (a) => {" +
@@ -86,9 +86,9 @@ namespace Apple_Music
                 PropertyNameCaseInsensitive = true,
             };
             var data = JsonSerializer.Deserialize<MusicKitResponse>(json, options);
-            rpc.UpdatePresence(data);
+            _rpc.UpdatePresence(data);
         }
 
-        private void Form_Closing(object sender, EventArgs e) => rpc.EndConnection();
+        private void Form_Closing(object sender, EventArgs e) => _rpc.EndConnection();
     }
 }
