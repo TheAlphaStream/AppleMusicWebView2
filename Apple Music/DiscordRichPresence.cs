@@ -52,7 +52,7 @@ internal class DiscordRichPresence
         {
             _client.Dispose();
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
             // Don't do anything lol
         }
