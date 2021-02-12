@@ -1,0 +1,11 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/.idea.Apple Music.iml
+/modules.xml
+/contentModel.xml
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
