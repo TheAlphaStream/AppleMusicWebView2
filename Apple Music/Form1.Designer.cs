@@ -51,7 +51,6 @@ namespace Apple_Music
             this.Controls.Add(this.webView);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Opacity = 0.98D;
             this.Text = "Apple Music";
             ((System.ComponentModel.ISupportInitialize) (this.webView)).EndInit();
             this.ResumeLayout(false);
