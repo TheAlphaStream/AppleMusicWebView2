@@ -30,10 +30,12 @@ discordRpcFirstLine: song
 discordRpcSecondLine: album by artist
 ```
 
-## Planned features
+## Planned things
 
+- Migrate to WPF
 - Settings UI
 - Last.fm scrobbling
+- Lyrics
 
 ## Credits
 
