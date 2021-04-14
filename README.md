@@ -30,6 +30,11 @@ discordRpcFirstLine: song
 discordRpcSecondLine: album by artist
 ```
 
+## Planned features
+
+- Settings UI
+- Last.fm scrobbling
+
 ## Credits
 
 - [Apple-Music-Electron by iiFir3z](https://github.com/iiFir3z/Apple-Music-Electron/) - main idea and JS code to get info from MusicKit and remove the "Open With iTunes" button
