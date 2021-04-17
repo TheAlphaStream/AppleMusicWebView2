@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         
         <CheckBox Grid.Row="0" Content="Enable Discord Rich Presence" IsChecked="{Binding IsDiscordRpcEnabled}"/>
-        <GroupBox Grid.Row="1" Header="Rich Presence Settings" Margin="0,8,0,0" x:Name="RpcGroup" IsEnabled="{Binding IsDiscordRpcEnabled}">
+        <GroupBox Grid.Row="1" Header="Rich Presence Settings" Margin="0,8,0,0" x:Name="RpcGroup">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
