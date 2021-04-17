@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 
@@ -12,19 +13,17 @@ namespace Apple_Music
     {
         #region Variables
         
-        private readonly DataViewModel _dvm;
+        private readonly DataViewModel _dvm = new DataViewModel();
         private readonly DiscordRichPresence _rpc = new DiscordRichPresence();
+        public static readonly RoutedCommand SettingsCommand = new RoutedCommand();
         
         #endregion
         
         public MainWindow()
         {
             InitializeComponent();
-            
-            // Initialize view model
-            _dvm = new DataViewModel();
             DataContext = _dvm;
-            
+            SettingsCommand.InputGestures.Add(new KeyGesture(Key.OemComma, ModifierKeys.Control));
             InitializeWebView();
         }
 
@@ -76,11 +75,15 @@ namespace Apple_Music
         
         private void UpdateRichPresence(object sender, CoreWebView2WebMessageReceivedEventArgs args)
         {
-            if (!Properties.Settings.Default.EnableDiscordRpc) return;
+            if (!_dvm.IsDiscordRpcEnabled) return;
             var response = JsonConvert.DeserializeObject<MusicKitResponse>(args.WebMessageAsJson);
             _rpc.UpdatePresence(response, Properties.Settings.Default.DiscordRpcFirstLine, Properties.Settings.Default.DiscordRpcSecondLine);
         }
 
         private async Task RunJsCode(string code) => await AmWebView.CoreWebView2.ExecuteScriptAsync(code);
+
+        private void OpenSettings(object sender, ExecutedRoutedEventArgs args) => new Settings().Show();
+
+        private void OnClose(object sender, dynamic args) => _rpc.EndConnection();
     }
 }

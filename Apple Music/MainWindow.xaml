@@ -8,10 +8,15 @@
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" 
         Height="450" 
         Width="800"
+        Closed="OnClose"
         DataContext="{StaticResourceExtension ResourceKey=DataViewModel}"
         Title="{Binding WindowTitle}">
         
         <DockPanel>
                 <wv2:WebView2 Name="AmWebView" Source="https://music.apple.com"/>
         </DockPanel>
+        
+        <Window.CommandBindings>
+                <CommandBinding Command="{x:Static local:MainWindow.SettingsCommand}" Executed="OpenSettings"/>
+        </Window.CommandBindings>
 </Window>

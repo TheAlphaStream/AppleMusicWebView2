@@ -1,0 +1,39 @@
+﻿<Window x:Class="Apple_Music.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Apple_Music"
+        mc:Ignorable="d"
+        DataContext="{StaticResourceExtension ResourceKey=DataViewModel}"
+        Title="Settings" SizeToContent="Height" Width="500">
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <CheckBox Grid.Row="0" Content="Enable Discord Rich Presence" IsChecked="{Binding IsDiscordRpcEnabled}"/>
+        <GroupBox Grid.Row="1" Header="Rich Presence Settings" Margin="0,8,0,0" x:Name="RpcGroup" IsEnabled="{Binding IsDiscordRpcEnabled}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Column="0" Content="First line: "/>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsDiscordFirstLine"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Second line: " Margin="0,8,0,0"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="SettingsDiscordSecondLine" Margin="0,8,0,0"/>
+            </Grid>
+        </GroupBox>
+        
+        <Button Grid.Row="2" HorizontalAlignment="Right" Content="Save" Width="75" Margin="0,8,0,0"/>
+    </Grid>
+</Window>
