@@ -6,33 +6,15 @@ Requires the WebView2 Runtime ([Download](https://go.microsoft.com/fwlink/p/?Lin
 
 [Download latest release (portable)](https://github.com/idkwuu/AppleMusicWebView2/releases/latest/download/AppleMusicWebView2-release.zip)
 
-![Preview](https://i.imgur.com/IdFsR7w.png)
+![Preview](https://i.imgur.com/6Dmlpfj.png)
 
 ## Usage
 
 - Run with "Apple Music.exe"
-- To change settings, edit "Apple Music.exe.config" in any text editor (Notepad)
-
-### Settings
-
-- EnableDiscordRpc - enable/disable Rich Presence in Discord (show what's playing) - True/False
-    
-- DiscordRpcFirstLine/DiscordRpcSecondLine - change the text that's displayed on Discord. The following words are replaced with the corresponding text:
-    * song - show song title
-    * artist - show artist's name
-    * album - show album's name
-
-```
-discordRpcFirstLine: 🎵 song
-discordRpcSecondLine: 🎤 artist 💽 album 
-
-discordRpcFirstLine: song
-discordRpcSecondLine: album by artist
-```
+- To change settings, press Control + , (comma) to open the settings window
 
 ## Planned things
 
-- Settings UI
 - Last.fm scrobbling
 - Lyrics
 
