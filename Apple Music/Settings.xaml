@@ -31,9 +31,9 @@
                 </Grid.ColumnDefinitions>
                 
                 <Label Grid.Column="0" Content="First line: "/>
-                <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsDiscordFirstLine"/>
+                <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsDiscordFirstLine" VerticalContentAlignment="Center"/>
                 <Label Grid.Row="1" Grid.Column="0" Content="Second line: " Margin="0,8,0,0"/>
-                <TextBox Grid.Row="1" Grid.Column="1" x:Name="SettingsDiscordSecondLine" Margin="0,8,0,0"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="SettingsDiscordSecondLine" Margin="0,8,0,0" VerticalContentAlignment="Center"/>
             </Grid>
         </GroupBox>
         
@@ -48,7 +48,7 @@
             </Grid.ColumnDefinitions>
                 
             <Label Grid.Column="0" Content="Initial URL: "/>
-            <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsWebUrl"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsWebUrl" VerticalContentAlignment="Center"/>
         </Grid>
         
         <Label Grid.Row="3" IsEnabled="False">
