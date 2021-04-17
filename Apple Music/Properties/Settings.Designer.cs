@@ -58,5 +58,17 @@ namespace Apple_Music.Properties {
                 this["DiscordRpcSecondLine"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://music.apple.com/")]
+        public string WebUrl {
+            get {
+                return ((string)(this["WebUrl"]));
+            }
+            set {
+                this["WebUrl"] = value;
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Apple_Music
         #region Variables
 
         private MusicKitResponse _data = new MusicKitResponse();
-        private DiscordRpcClient _client;
+        public DiscordRpcClient _client;
         private string _details;
         private string _state;
 
@@ -20,8 +20,10 @@ namespace Apple_Music
             _client.Initialize();
         }
 
-        public void UpdatePresence(MusicKitResponse newData, string templateFirstLine, string templateSecondLine)
+        public void UpdatePresence(MusicKitResponse newData)
         {
+            if (!_client.IsInitialized || _client == null) return;
+            
             // If music is paused, clear presence
             if (newData.State != null && newData.State != 2)
             {
@@ -33,8 +35,8 @@ namespace Apple_Music
             if (newData.Name != null && newData.ArtistName != null && newData.AlbumName != null)
             {
                 _data = newData;
-                _details = ParseTemplate(templateFirstLine);
-                _state = ParseTemplate(templateSecondLine);
+                _details = ParseTemplate(Properties.Settings.Default.DiscordRpcFirstLine);
+                _state = ParseTemplate(Properties.Settings.Default.DiscordRpcSecondLine);
             }
             else
                 _data.State = newData.State;
@@ -55,13 +57,18 @@ namespace Apple_Music
             }
         }
 
-        private String ParseTemplate(String text)
+
+        private string ParseTemplate(String text)
         {
-            String songReplaced = text.Replace("song", _data.Name);
-            String artistReplaced = songReplaced.Replace("artist", _data.ArtistName);
-            String final = artistReplaced.Replace("album", _data.AlbumName);
+            var songReplaced = text.Replace("song", _data.Name);
+            var artistReplaced = songReplaced.Replace("artist", _data.ArtistName);
+            var final = artistReplaced.Replace("album", _data.AlbumName);
             return final;
         }
+
+        public void PausePresence() => _client.ClearPresence();
+
+        public void ResumePresence() => UpdatePresence(_data);
 
         public void EndConnection()
         {
@@ -70,7 +77,7 @@ namespace Apple_Music
             {
                 _client.Dispose();
             }
-            catch (NullReferenceException)
+            catch (Exception) // stfu
             {
                 // Don't do anything lol
             }

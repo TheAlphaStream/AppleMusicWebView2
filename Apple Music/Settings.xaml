@@ -5,10 +5,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Apple_Music"
         mc:Ignorable="d"
+        Closing="SaveSettings"
         DataContext="{StaticResourceExtension ResourceKey=DataViewModel}"
-        Title="Settings" SizeToContent="Height" Width="500">
+        Title="Settings" SizeToContent="Height" Width="500" ResizeMode="NoResize">
     <Grid Margin="16">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -34,6 +37,26 @@
             </Grid>
         </GroupBox>
         
-        <Button Grid.Row="2" HorizontalAlignment="Right" Content="Save" Width="75" Margin="0,8,0,0"/>
+        <Grid Grid.Row="2" Margin="0,8,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+                
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+                
+            <Label Grid.Column="0" Content="Initial URL: "/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsWebUrl"/>
+        </Grid>
+        
+        <Label Grid.Row="3" IsEnabled="False">
+            <Label.Content>
+                <AccessText TextWrapping="Wrap">URL to open when the app is opened. Useful to open a certain section or country-specific website.</AccessText>
+            </Label.Content>
+        </Label>
+        
+        <Label Grid.Row="4" Content="Settings are automatically saved" IsEnabled="False"/>
     </Grid>
 </Window>

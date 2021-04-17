@@ -11,5 +11,8 @@
     <Setting Name="DiscordRpcSecondLine" Type="System.String" Scope="User">
       <Value Profile="(Default)">🎤 artist 💽 album</Value>
     </Setting>
+    <Setting Name="WebUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://music.apple.com/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

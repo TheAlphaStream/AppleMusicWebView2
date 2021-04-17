@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Web.WebView2.Core;
@@ -23,14 +24,38 @@ namespace Apple_Music
         {
             InitializeComponent();
             DataContext = _dvm;
+            CheckValidSettings();
             SettingsCommand.InputGestures.Add(new KeyGesture(Key.OemComma, ModifierKeys.Control));
             InitializeWebView();
+        }
+
+        private void CheckValidSettings()
+        {
+            var didSettingsChange = false;
+            if (Properties.Settings.Default.DiscordRpcFirstLine == "")
+            {
+                Properties.Settings.Default.DiscordRpcFirstLine = "🎵 song";
+                didSettingsChange = true;
+            }
+            if (Properties.Settings.Default.DiscordRpcSecondLine == "")
+            {
+                Properties.Settings.Default.DiscordRpcSecondLine = "🎤 artist 💽 album";
+                didSettingsChange = true;
+            }
+            if (Properties.Settings.Default.WebUrl == "")
+            {
+                Properties.Settings.Default.WebUrl = "https://music.apple.com/";
+                didSettingsChange = true;
+            }
+            if (didSettingsChange) Properties.Settings.Default.Save();
         }
 
         private async void InitializeWebView()
         {
             // Initialize WebView
             await AmWebView.EnsureCoreWebView2Async();
+            // Go to pre-saved url
+            AmWebView.Source = new Uri(Properties.Settings.Default.WebUrl);
             // Change window title when document title changes
             AmWebView.CoreWebView2.DocumentTitleChanged += AppleMusic_TitleChanged;
             // Remove extra shit from the website (like the Open in iTunes button) when page loads
@@ -77,7 +102,7 @@ namespace Apple_Music
         {
             if (!_dvm.IsDiscordRpcEnabled) return;
             var response = JsonConvert.DeserializeObject<MusicKitResponse>(args.WebMessageAsJson);
-            _rpc.UpdatePresence(response, Properties.Settings.Default.DiscordRpcFirstLine, Properties.Settings.Default.DiscordRpcSecondLine);
+            _rpc.UpdatePresence(response);
         }
 
         private async Task RunJsCode(string code) => await AmWebView.CoreWebView2.ExecuteScriptAsync(code);

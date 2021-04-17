@@ -13,7 +13,7 @@
         Title="{Binding WindowTitle}">
         
         <DockPanel>
-                <wv2:WebView2 Name="AmWebView" Source="https://music.apple.com"/>
+                <wv2:WebView2 Name="AmWebView"/>
         </DockPanel>
         
         <Window.CommandBindings>
