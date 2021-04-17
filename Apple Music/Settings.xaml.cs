@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Apple_Music
 {
@@ -34,14 +35,7 @@ namespace Apple_Music
         private void RpcEnabledChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
             _dvm.IsDiscordRpcEnabled = RpcGroup.IsEnabled;
-            if (_dvm.IsDiscordRpcEnabled)
-            {
-                _rpc.PausePresence();
-            }
-            else
-            {
-                _rpc.ResumePresence();
-            }
+            RpcGroup.Height = RpcGroup.IsEnabled ? double.NaN : 0;
         }
 
         private void SaveSettings(object sender, dynamic args)

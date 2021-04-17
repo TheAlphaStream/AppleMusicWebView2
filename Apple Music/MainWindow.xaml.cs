@@ -100,7 +100,14 @@ namespace Apple_Music
         
         private void UpdateRichPresence(object sender, CoreWebView2WebMessageReceivedEventArgs args)
         {
-            if (!_dvm.IsDiscordRpcEnabled) return;
+            if (_dvm.IsDiscordRpcEnabled)
+                _rpc.Initialize();
+            else
+            {
+                _rpc.EndConnection();
+                return;
+            }
+
             var response = JsonConvert.DeserializeObject<MusicKitResponse>(args.WebMessageAsJson);
             _rpc.UpdatePresence(response);
         }

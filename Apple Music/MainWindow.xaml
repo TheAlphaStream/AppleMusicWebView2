@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Apple_Music"
         mc:Ignorable="d"
-        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" 
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         Height="450" 
         Width="800"
         Closed="OnClose"
+        ui:WindowHelper.UseModernWindowStyle="True"
         DataContext="{StaticResourceExtension ResourceKey=DataViewModel}"
         Title="{Binding WindowTitle}">
         

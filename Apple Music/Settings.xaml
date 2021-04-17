@@ -5,6 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Apple_Music"
         mc:Ignorable="d"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True"
         Closing="SaveSettings"
         DataContext="{StaticResourceExtension ResourceKey=DataViewModel}"
         Title="Settings" SizeToContent="Height" Width="500" ResizeMode="NoResize">
@@ -30,9 +32,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 
-                <Label Grid.Column="0" Content="First line: "/>
+                <Label Grid.Column="0" Content="First line: " VerticalContentAlignment="Center"/>
                 <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsDiscordFirstLine" VerticalContentAlignment="Center"/>
-                <Label Grid.Row="1" Grid.Column="0" Content="Second line: " Margin="0,8,0,0"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Second line: " Margin="0,8,0,0" VerticalContentAlignment="Center"/>
                 <TextBox Grid.Row="1" Grid.Column="1" x:Name="SettingsDiscordSecondLine" Margin="0,8,0,0" VerticalContentAlignment="Center"/>
             </Grid>
         </GroupBox>
@@ -47,16 +49,16 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
                 
-            <Label Grid.Column="0" Content="Initial URL: "/>
+            <Label Grid.Column="0" Content="Initial URL: " VerticalContentAlignment="Center"/>
             <TextBox Grid.Row="0" Grid.Column="1" x:Name="SettingsWebUrl" VerticalContentAlignment="Center"/>
         </Grid>
         
-        <Label Grid.Row="3" IsEnabled="False">
+        <Label Grid.Row="3" IsEnabled="False" Margin="0,8,0,0">
             <Label.Content>
                 <AccessText TextWrapping="Wrap">URL to open when the app is opened. Useful to open a certain section or country-specific website.</AccessText>
             </Label.Content>
         </Label>
         
-        <Label Grid.Row="4" Content="Settings are automatically saved" IsEnabled="False"/>
+        <Label Grid.Row="4" Content="Settings are automatically saved" IsEnabled="False" Margin="0,8,0,0"/>
     </Grid>
 </Window>

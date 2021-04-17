@@ -16,13 +16,15 @@ namespace Apple_Music
         
         public void Initialize()
         {
+            if (_client != null) return;
+
             _client = new DiscordRpcClient("808063700509786183");
             _client.Initialize();
         }
 
         public void UpdatePresence(MusicKitResponse newData)
         {
-            if (!_client.IsInitialized || _client == null) return;
+            if (_client == null) return;
             
             // If music is paused, clear presence
             if (newData.State != null && newData.State != 2)
@@ -65,10 +67,6 @@ namespace Apple_Music
             var final = artistReplaced.Replace("album", _data.AlbumName);
             return final;
         }
-
-        public void PausePresence() => _client.ClearPresence();
-
-        public void ResumePresence() => UpdatePresence(_data);
 
         public void EndConnection()
         {
