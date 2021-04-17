@@ -9,8 +9,8 @@ namespace Apple_Music
 
         private MusicKitResponse _data = new MusicKitResponse();
         private DiscordRpcClient _client;
-        private String Details;
-        private String State;
+        private string _details;
+        private string _state;
 
         #endregion
         
@@ -20,7 +20,7 @@ namespace Apple_Music
             _client.Initialize();
         }
 
-        public void UpdatePresence(MusicKitResponse newData, String templateFirstLine, String templateSecondLine)
+        public void UpdatePresence(MusicKitResponse newData, string templateFirstLine, string templateSecondLine)
         {
             // If music is paused, clear presence
             if (newData.State != null && newData.State != 2)
@@ -33,8 +33,8 @@ namespace Apple_Music
             if (newData.Name != null && newData.ArtistName != null && newData.AlbumName != null)
             {
                 _data = newData;
-                Details = ParseTemplate(templateFirstLine);
-                State = ParseTemplate(templateSecondLine);
+                _details = ParseTemplate(templateFirstLine);
+                _state = ParseTemplate(templateSecondLine);
             }
             else
                 _data.State = newData.State;
@@ -44,8 +44,8 @@ namespace Apple_Music
             {
                 _client.SetPresence(new RichPresence
                 {
-                    Details = Details,
-                    State = State,
+                    Details = _details,
+                    State = _state,
                     Assets = new Assets
                     {
                         LargeImageKey = "applemusic_logo",
