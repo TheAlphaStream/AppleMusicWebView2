@@ -1,6 +1,8 @@
-﻿namespace Apple_Music
+﻿using System.Collections.Generic;
+
+namespace Apple_Music.Models
 {
-    public class MusicKitResponse
+    public class SongResponse
     {
         public short? State { get; set; }
         public string AlbumName { get; set; }

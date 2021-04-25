@@ -1,5 +1,6 @@
 ﻿using System;
 using DiscordRPC;
+using Apple_Music.Models;
 
 namespace Apple_Music
 {
@@ -7,10 +8,11 @@ namespace Apple_Music
     {
         #region Variables
 
-        private MusicKitResponse _data = new MusicKitResponse();
-        public DiscordRpcClient _client;
+        private SongResponse _data = new SongResponse();
+        private DiscordRpcClient _client;
         private string _details;
         private string _state;
+        private readonly DataViewModel _dvm = new DataViewModel();
 
         #endregion
         
@@ -22,7 +24,7 @@ namespace Apple_Music
             _client.Initialize();
         }
 
-        public void UpdatePresence(MusicKitResponse newData)
+        public void UpdatePresence(SongResponse newData)
         {
             if (_client == null) return;
             

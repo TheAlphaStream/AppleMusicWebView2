@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Windows.ApplicationModel.Email;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
+using Apple_Music.Models;
 
 namespace Apple_Music
 {
@@ -26,6 +29,8 @@ namespace Apple_Music
             DataContext = _dvm;
             CheckValidSettings();
             SettingsCommand.InputGestures.Add(new KeyGesture(Key.OemComma, ModifierKeys.Control));
+            Settings.Click += OpenSettings;
+            Lyrics.Click += ToggleLyricsPanel;
             InitializeWebView();
         }
 
@@ -76,17 +81,18 @@ namespace Apple_Music
             await RunJsCode("while (elements.length > 0) elements[0].remove();");
         }
         
-        // Credit for the JS code: https://github.com/iiFir3z/Apple-Music-Electron/
         private async void InitDiscordRpc(object sender, object e)
         {
             // yeah...
             _rpc.Initialize();
             // Get playing state
+            // Credit: https://github.com/iiFir3z/Apple-Music-Electron/
             await RunJsCode(
                 "MusicKit.getInstance().addEventListener( MusicKit.Events.playbackStateDidChange, (a) => {" +
                 "window.chrome.webview.postMessage({state: a.state});" +
                 "});");
             // Get music data. I'm so sorry for making you see this
+            // Credit: https://github.com/iiFir3z/Apple-Music-Electron/
             await RunJsCode(
                 "MusicKit.getInstance().addEventListener( MusicKit.Events.mediaItemStateDidChange, function() {" +
                 "const nowPlayingItem =  MusicKit.getInstance().nowPlayingItem; let attributes  = {}; if (nowPlayingItem != null) { attributes = nowPlayingItem.attributes; }" +
@@ -94,6 +100,22 @@ namespace Apple_Music
                 "attributes.durationInMillis = attributes.durationInMillis ? attributes.durationInMillis : 0;" +
                 "attributes.albumName = attributes.albumName ? attributes.albumName : null;" +
                 "attributes.artistName = attributes.artistName ? attributes.artistName : null;" +
+                "window.chrome.webview.postMessage(attributes);" +
+                "})");
+            // Get lyrics
+            await RunJsCode(
+                "MusicKit.getInstance().addEventListener(MusicKit.Events.mediaItemStateDidChange, function() {" +
+                "let attributes = {};" +
+                "let mk = MusicKit.getInstance();" +
+                "if (mk.nowPlayingItem != undefined) {" +
+                "mk.api.lyric(mk.nowPlayingItem.songId).then(function(data) {" +
+                // there are lyrics!
+                "attributes.response = data.ttml; attributes.hasLyrics = true;" +
+                "window.chrome.webview.postMessage(attributes);" +
+                // error requesting lyrics = no lyrics
+                "} ).catch(e => attributes.hasLyrics = false);" +
+                // nowPlayingItem is undefined
+                "} else { attributes.hasLyrics = false }" +
                 "window.chrome.webview.postMessage(attributes);" +
                 "})");
         }
@@ -107,15 +129,31 @@ namespace Apple_Music
                 _rpc.EndConnection();
                 return;
             }
-
-            var response = JsonConvert.DeserializeObject<MusicKitResponse>(args.WebMessageAsJson);
-            _rpc.UpdatePresence(response);
+            
+            // Check for lyrics
+            var lyrics = JsonConvert.DeserializeObject<LyricResponse>(args.WebMessageAsJson);
+            if (lyrics.HasLyrics != null)
+            {
+                if (lyrics.HasLyrics == true) 
+                    _dvm.Lyrics = Utils.ParseLyrics(lyrics.Response);
+                else 
+                    _dvm.ShowLyrics = false;
+                
+                _dvm.EnableLyrics = lyrics.HasLyrics == true; // weird nullable shit
+                return;
+            }
+            
+            // Update discord rich presence
+            var song = JsonConvert.DeserializeObject<SongResponse>(args.WebMessageAsJson);
+            _rpc.UpdatePresence(song);
         }
 
         private async Task RunJsCode(string code) => await AmWebView.CoreWebView2.ExecuteScriptAsync(code);
 
-        private void OpenSettings(object sender, ExecutedRoutedEventArgs args) => new Settings().Show();
+        private void OpenSettings(object sender, object args) => new Settings().Show();
 
         private void OnClose(object sender, dynamic args) => _rpc.EndConnection();
+
+        private void ToggleLyricsPanel(object sender, dynamic args) => _dvm.ShowLyrics = !_dvm.ShowLyrics;
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using Apple_Music.Models;
 
 namespace Apple_Music
 {
@@ -11,6 +13,9 @@ namespace Apple_Music
 
         private string _windowTitle = "Apple Music";
         private bool _isDiscordRpcEnabled = Properties.Settings.Default.EnableDiscordRpc;
+        private List<Lyric> _lyrics;
+        private bool _showLyrics = false;
+        private bool _enableLyrics = false;
 
         public string WindowTitle
         {
@@ -30,6 +35,36 @@ namespace Apple_Music
                 _isDiscordRpcEnabled = value;
                 Properties.Settings.Default.EnableDiscordRpc = value;
                 OnPropertyChanged("IsDiscordRpcEnabled");
+            }
+        }
+
+        public List<Lyric> Lyrics
+        {
+            get => _lyrics;
+            set
+            {
+                _lyrics = value;
+                OnPropertyChanged("Lyrics");
+            }
+        }
+
+        public bool ShowLyrics
+        {
+            get => _showLyrics;
+            set
+            {
+                _showLyrics = value;
+                OnPropertyChanged("ShowLyrics");
+            }
+        }
+
+        public bool EnableLyrics
+        {
+            get => _enableLyrics;
+            set
+            {
+                _enableLyrics = value;
+                OnPropertyChanged("EnableLyrics");
             }
         }
     }

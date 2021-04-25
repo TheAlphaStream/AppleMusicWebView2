@@ -7,18 +7,96 @@
         mc:Ignorable="d"
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-        Height="450" 
+        Height="450"
         Width="800"
         Closed="OnClose"
         ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.ExtendViewIntoTitleBar="True"
+        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
+        ui:TitleBar.ButtonStyle="{DynamicResource AppTitleBarButtonStyle}"
         DataContext="{StaticResourceExtension ResourceKey=DataViewModel}"
-        Title="{Binding WindowTitle}">
-        
-        <DockPanel>
-                <wv2:WebView2 Name="AmWebView"/>
-        </DockPanel>
-        
-        <Window.CommandBindings>
-                <CommandBinding Command="{x:Static local:MainWindow.SettingsCommand}" Executed="OpenSettings"/>
-        </Window.CommandBindings>
+        Title="{Binding WindowTitle}"
+        x:Name="Window">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <local:BooleanToWidthConverter x:Key="BooleanToWidthConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="AppTitleBar"
+            ui:ThemeManager.RequestedTheme="Dark">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition
+                    Width="{Binding ElementName=Window, Path=(ui:TitleBar.SystemOverlayRightInset)}" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                FontSize="13"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="12,0,0,0"
+                Text="{Binding ElementName=Window, Path=Title}" />
+
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Horizontal">
+                <ui:TitleBarButton
+                    x:Name="Lyrics"
+                    Style="{DynamicResource AppTitleBarButtonStyle}"
+                    FontSize="13"
+                    Width="NaN"
+                    FontFamily="Segoe MDL2 Assets"
+                    Padding="16,0"
+                    Visibility="{Binding EnableLyrics, Converter={StaticResource BoolToVisibility}}"
+                    Content="&#xE7BC;" />
+                <ui:TitleBarButton
+                    x:Name="Settings"
+                    Style="{DynamicResource AppTitleBarButtonStyle}"
+                    FontSize="13"
+                    Width="NaN"
+                    FontFamily="Segoe MDL2 Assets"
+                    Padding="16,0"
+                    Content="&#xE713;" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel>
+                <wv2:WebView2 Name="AmWebView" />
+            </DockPanel>
+
+            <Grid Grid.Column="1" Width="{Binding ShowLyrics, Converter={StaticResource BooleanToWidthConverter}}">
+               
+                <ListBox ItemsSource="{Binding Lyrics}" BorderBrush="Transparent"
+                         HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Line}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+    </Grid>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.SettingsCommand}" Executed="OpenSettings" />
+    </Window.CommandBindings>
 </Window>
