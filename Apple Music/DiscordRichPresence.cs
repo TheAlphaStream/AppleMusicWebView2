@@ -55,7 +55,7 @@ namespace Apple_Music
                     Assets = new Assets
                     {
                         LargeImageKey = "applemusic_logo",
-                        LargeImageText = "Apple Music"
+                        LargeImageText = "LISTENING TO APPLE MUSIC"
                     }
                 });
             }
